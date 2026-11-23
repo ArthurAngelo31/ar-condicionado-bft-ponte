@@ -1,0 +1,12 @@
+{
+  "name": "ar-condicionado-bft-ponte",
+  "version": "1.0.0",
+  "description": "Servidor-ponte: o site fala com isso, o ESP fala com isso. Endereço fixo, não depende de rede nem de notebook ligado.",
+  "main": "servidor.js",
+  "scripts": {
+    "start": "node servidor.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
