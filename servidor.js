@@ -76,7 +76,7 @@ app.get('/sala/:id/estado', (req, res) => {
   const sala = getSala(req.params.id);
   const ap = sala.aplicado.aparelhos || [];
   res.json({
-    id: req.params.id,
+    id: Number(req.params.id),
     qtd: sala.qtd,
     ligado: ap[0] ? ap[0].ligado : false,
     temperatura: ap[0] ? ap[0].temperatura : 22,
@@ -92,7 +92,7 @@ app.post('/sala/:id/ligar', (req, res) => {
   for (let i = 0; i < sala.qtd; i++) sala.desejado.aparelhos[i] = { ligado: true, temperatura: temp };
   sala.desejado.seq++;
   sala.desejado.alvo = 'todos';
-  res.json({ id: req.params.id, ligado: true, temperatura: temp });
+  res.json({ id: Number(req.params.id), ligado: true, temperatura: temp });
 });
 
 app.post('/sala/:id/desligar', (req, res) => {
@@ -100,7 +100,7 @@ app.post('/sala/:id/desligar', (req, res) => {
   for (let i = 0; i < sala.qtd; i++) sala.desejado.aparelhos[i] = { ...sala.desejado.aparelhos[i], ligado: false };
   sala.desejado.seq++;
   sala.desejado.alvo = 'todos';
-  res.json({ id: req.params.id, ligado: false, temperatura: sala.aplicado.aparelhos[0]?.temperatura ?? 22 });
+  res.json({ id: Number(req.params.id), ligado: false, temperatura: sala.aplicado.aparelhos[0]?.temperatura ?? 22 });
 });
 
 app.post('/sala/:id/temperatura', (req, res) => {
@@ -112,7 +112,7 @@ app.post('/sala/:id/temperatura', (req, res) => {
   for (let i = 0; i < sala.qtd; i++) if (sala.desejado.aparelhos[i].ligado) sala.desejado.aparelhos[i].temperatura = temp;
   sala.desejado.seq++;
   sala.desejado.alvo = 'todos';
-  res.json({ id: req.params.id, ligado: true, temperatura: temp });
+  res.json({ id: Number(req.params.id), ligado: true, temperatura: temp });
 });
 
 // ===================== API PRO SITE (1 aparelho específico) =====================
@@ -135,7 +135,7 @@ app.post('/sala/:id/aparelho/:n/ligar', (req, res) => {
   sala.desejado.aparelhos[idx] = { ligado: true, temperatura: temp };
   sala.desejado.seq++;
   sala.desejado.alvo = String(idx);
-  res.json({ id: req.params.id, aparelho: idx + 1, ligado: true, temperatura: temp });
+  res.json({ id: Number(req.params.id), aparelho: idx + 1, ligado: true, temperatura: temp });
 });
 
 app.post('/sala/:id/aparelho/:n/desligar', (req, res) => {
@@ -145,7 +145,7 @@ app.post('/sala/:id/aparelho/:n/desligar', (req, res) => {
   sala.desejado.aparelhos[idx] = { ...sala.desejado.aparelhos[idx], ligado: false };
   sala.desejado.seq++;
   sala.desejado.alvo = String(idx);
-  res.json({ id: req.params.id, aparelho: idx + 1, ligado: false, temperatura: sala.aplicado.aparelhos[idx]?.temperatura ?? 22 });
+  res.json({ id: Number(req.params.id), aparelho: idx + 1, ligado: false, temperatura: sala.aplicado.aparelhos[idx]?.temperatura ?? 22 });
 });
 
 app.post('/sala/:id/aparelho/:n/temperatura', (req, res) => {
@@ -158,7 +158,7 @@ app.post('/sala/:id/aparelho/:n/temperatura', (req, res) => {
   sala.desejado.aparelhos[idx].temperatura = temp;
   sala.desejado.seq++;
   sala.desejado.alvo = String(idx);
-  res.json({ id: req.params.id, aparelho: idx + 1, ligado: true, temperatura: temp });
+  res.json({ id: Number(req.params.id), aparelho: idx + 1, ligado: true, temperatura: temp });
 });
 
 // ===================== CONFIG (quantidade de aparelhos + marca de cada um) =====================
